@@ -5,7 +5,17 @@ const Todo = require('../models/Todo');
 // Get all todos
 router.get('/', async (req, res) => {
     try {
-        const todos = await Todo.find().sort({ createdAt: -1 });
+        const filter = {};
+
+        if (req.query.category && req.query.category !== 'all') {
+            filter.category = req.query.category;
+        }
+
+        if (req.query.priority && req.query.priority !== 'all') {
+            filter.priority = req.query.priority;
+        }
+
+        const todos = await Todo.find(filter).sort({ createdAt: -1 });
         res.json(todos);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -15,7 +25,11 @@ router.get('/', async (req, res) => {
 // Create new todo
 router.post('/', async (req, res) => {
     const todo = new Todo({
-        title: req.body.title
+        title: req.body.title,
+        description: req.body.description,
+        category: req.body.category || 'general',
+        priority: req.body.priority || 'medium',
+        dueDate: req.body.dueDate
     });
 
     try {
@@ -33,6 +47,10 @@ router.patch('/:id', async (req, res) => {
         if (!todo) return res.status(404).json({ message: 'Todo not found' });
 
         if (req.body.title) todo.title = req.body.title;
+        if (req.body.description !== undefined) todo.description = req.body.description;
+        if (req.body.category) todo.category = req.body.category;
+        if (req.body.priority) todo.priority = req.body.priority;
+        if (req.body.dueDate !== undefined) todo.dueDate = req.body.dueDate;
         if (req.body.completed !== undefined) todo.completed = req.body.completed;
 
         const updatedTodo = await todo.save();

@@ -5,6 +5,22 @@ const todoSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    description: {
+        type: String,
+        default: ''
+    },
+    priority: {
+        type: String,
+        enum: ['low', 'medium', 'high'],
+        default: 'medium'
+    },
+    category: {
+        type: String,
+        default: 'general'
+    },
+    dueDate: {
+        type: Date
+    },
     completed: {
         type: Boolean,
         default: false
