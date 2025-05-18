@@ -11,6 +11,8 @@
   <h1>Todo List</h1>
 
   <div class="controls">
+    <button id="add-task-btn" class="add-task-btn">+ Add Task</button>
+
     <select id="category-filter">
       <option value="all">All Categories</option>
       <option value="general">General</option>
@@ -27,25 +29,55 @@
     </select>
   </div>
 
-  <form id="todo-form">
-    <input type="text" id="todo-input" placeholder="Task title..." required>
-    <input type="text" id="todo-description" placeholder="Description...">
-    <select id="todo-category">
-      <option value="general">General</option>
-      <option value="work">Work</option>
-      <option value="personal">Personal</option>
-      <option value="shopping">Shopping</option>
-    </select>
-    <select id="todo-priority">
-      <option value="medium">Medium</option>
-      <option value="high">High</option>
-      <option value="low">Low</option>
-    </select>
-    <input type="date" id="todo-due-date">
-    <button type="submit">Add Task</button>
-  </form>
+  <!-- Modal for adding new task -->
+  <div id="task-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <h2>Add New Task</h2>
+      <form id="todo-form">
+        <div class="form-group">
+          <label for="todo-input">Title*</label>
+          <input type="text" id="todo-input" placeholder="Task title..." required>
+        </div>
+
+        <div class="form-group">
+          <label for="todo-description">Description</label>
+          <textarea id="todo-description" placeholder="Task description..."></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="todo-category">Category</label>
+            <select id="todo-category">
+              <option value="general">General</option>
+              <option value="work">Work</option>
+              <option value="personal">Personal</option>
+              <option value="shopping">Shopping</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="todo-priority">Priority</label>
+            <select id="todo-priority">
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="todo-due-date">Due Date</label>
+          <input type="date" id="todo-due-date">
+        </div>
+
+        <button type="submit" class="submit-btn">Add Task</button>
+      </form>
+    </div>
+  </div>
 
   <div class="todo-groups">
+    <!-- Todo groups remain the same -->
     <div class="todo-category" data-category="work">
       <h2>Work</h2>
       <ul class="todo-list" id="work-todos"></ul>
