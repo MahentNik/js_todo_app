@@ -22,6 +22,31 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/categories', async (req, res) => {
+    try {
+        const categories = await Todo.distinct('category');
+        res.json(categories);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+// Добавьте этот новый маршрут
+router.patch('/update-category', async (req, res) => {
+    try {
+        const { oldCategory, newCategory } = req.body;
+
+        const result = await Todo.updateMany(
+            { category: oldCategory },
+            { $set: { category: newCategory } }
+        );
+
+        res.json({ updatedCount: result.nModified });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 // Create new todo
 router.post('/', async (req, res) => {
     const todo = new Todo({
